@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vue模板语法-v-model（八） | Tr's Blog</title><meta name="description" content="v-model的基本使用 输入框内容修改，message也修改，修改message，input内容也修改，双向绑定 1234&lt;div id&#x3D;&quot;app&quot;&gt;  &lt;input type&#x3D;&quot;text&quot; v-model&#x3D;&quot;message&quot;&gt;  &amp;#123;&amp;#123;message&amp;#125;&amp;"><meta name="keywords" content="前端,Vue"><meta name="author" content="Bluu"><meta name="copyright" content="Bluu"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/pictures/yellow.JPG"><link rel="canonical" href="http://yoursite.com/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-v-model%EF%BC%88%E5%85%AB%EF%BC%89/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Vue模板语法-v-model（八）"><meta property="og:url" content="http://yoursite.com/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-v-model%EF%BC%88%E5%85%AB%EF%BC%89/"><meta property="og:site_name" content="Tr's Blog"><meta property="og:description" content="v-model的基本使用 输入框内容修改，message也修改，修改message，input内容也修改，双向绑定 1234&lt;div id&#x3D;&quot;app&quot;&gt;  &lt;input type&#x3D;&quot;text&quot; v-model&#x3D;&quot;message&quot;&gt;  &amp;#123;&amp;#123;message&amp;#125;&amp;"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg"><meta property="article:published_time" content="2021-05-30T12:16:33.000Z"><meta property="article:modified_time" content="2021-05-30T12:22:43.095Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="next" title="Vue模板语法-循环遍历（七）" href="http://yoursite.com/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-%E5%BE%AA%E7%8E%AF%E9%81%8D%E5%8E%86%EF%BC%88%E4%B8%83%EF%BC%89/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: true    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/StaticFile_HEXO@latest/butterfly/css/tags.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/StaticFile_HEXO@latest/butterfly/css/plugins.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><canvas class="fireworks"></canvas><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/pictures/bluedot.JPG" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">2</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#v-model的基本使用"><span class="toc-number">1.</span> <span class="toc-text">v-model的基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-model原理"><span class="toc-number">2.</span> <span class="toc-text">v-model原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-model结合radio类型使用"><span class="toc-number">3.</span> <span class="toc-text">v-model结合radio类型使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-model结合checkbox类型"><span class="toc-number">4.</span> <span class="toc-text">v-model结合checkbox类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-model结合select类型"><span class="toc-number">5.</span> <span class="toc-text">v-model结合select类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v-model的修饰符的使用"><span class="toc-number">6.</span> <span class="toc-text">v-model的修饰符的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#lazy修饰符"><span class="toc-number">6.0.1.</span> <span class="toc-text">lazy修饰符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#number修饰符"><span class="toc-number">6.0.2.</span> <span class="toc-text">number修饰符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#trim修饰符"><span class="toc-number">6.0.3.</span> <span class="toc-text">trim修饰符</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#值绑定"><span class="toc-number">7.</span> <span class="toc-text">值绑定</span></a></li></ol></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Tr's Blog</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Vue模板语法-v-model（八）</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2021-05-30 20:16:33"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2021-05-30</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2021-05-30 20:22:43"><i class="fas fa-history fa-fw"></i> 更新于 2021-05-30</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/Vue2/">Vue2</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="far fa-comments fa-fw post-meta__icon"></i><span>评论数:</span><a href="/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-v-model%EF%BC%88%E5%85%AB%EF%BC%89/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-v-model%EF%BC%88%E5%85%AB%EF%BC%89/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="v-model的基本使用"><a class="header-anchor" href="#v-model的基本使用"></a>v-model的基本使用</h2>
+<p>输入框内容修改，message也修改，修改message，input内容也修改，双向绑定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">  &lt;input type&#x3D;&quot;text&quot; v-model&#x3D;&quot;message&quot;&gt;</span><br><span class="line">  &#123;&#123;message&#125;&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="v-model原理"><a class="header-anchor" href="#v-model原理"></a>v-model原理</h2>
+<p>v-model其实是一个语法糖，它的背后本质上是包含两个操作：</p>
+<ol>
+<li>v-bind绑定一个value属性</li>
+<li>v-on指令给当前元素绑定input事件</li>
+</ol>
+<p><code>&lt;input type=&quot;text&quot; v-model=&quot;message&quot;&gt;</code></p>
+<p>等同于</p>
+<p><code>&lt;input type=&quot;text&quot; :value=&quot;message&quot; @input=&quot;message = $event.target.value&quot;&gt;</code></p>
+<blockquote>
+<p><code>$event</code>获取事件对象，target获取监听的对象dom，value获取最新的值。</p>
+</blockquote>
+<hr>
+<h2 id="v-model结合radio类型使用"><a class="header-anchor" href="#v-model结合radio类型使用"></a>v-model结合radio类型使用</h2>
+<p>如果使用v-model，可以不使用<code>name</code>就可以互斥。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;label for&#x3D;&quot;male&quot;&gt;</span><br><span class="line">      &lt;input type&#x3D;&quot;radio&quot; id&#x3D;&quot;male&quot; name&#x3D;&quot;sex&quot; value&#x3D;&quot;男&quot; v-model&#x3D;&quot;sex&quot;&gt;男</span><br><span class="line">    &lt;&#x2F;label&gt;</span><br><span class="line">    &lt;label for&#x3D;&quot;female&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;radio&quot; id&#x3D;&quot;female&quot; name&#x3D;&quot;sex&quot; value&#x3D;&quot;女&quot; v-model&#x3D;&quot;sex&quot;&gt;女</span><br><span class="line">    &lt;&#x2F;label&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="v-model结合checkbox类型"><a class="header-anchor" href="#v-model结合checkbox类型"></a>v-model结合checkbox类型</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">  &lt;!--1.checkbox单选框--&gt;</span><br><span class="line">  &lt;!--&lt;label for&#x3D;&quot;agree&quot;&gt;--&gt;</span><br><span class="line">    &lt;!--&lt;input type&#x3D;&quot;checkbox&quot; id&#x3D;&quot;agree&quot; v-model&#x3D;&quot;isAgree&quot;&gt;同意协议--&gt;</span><br><span class="line">  &lt;!--&lt;&#x2F;label&gt;--&gt;</span><br><span class="line">  &lt;!--&lt;h2&gt;您选择的是: &#123;&#123;isAgree&#125;&#125;&lt;&#x2F;h2&gt;--&gt;</span><br><span class="line">  &lt;!--&lt;button :disabled&#x3D;&quot;!isAgree&quot;&gt;下一步&lt;&#x2F;button&gt;--&gt;</span><br><span class="line"></span><br><span class="line">  &lt;!--2.checkbox多选框--&gt;</span><br><span class="line">  &lt;input type&#x3D;&quot;checkbox&quot; value&#x3D;&quot;篮球&quot; v-model&#x3D;&quot;hobbies&quot;&gt;篮球</span><br><span class="line">  &lt;input type&#x3D;&quot;checkbox&quot; value&#x3D;&quot;足球&quot; v-model&#x3D;&quot;hobbies&quot;&gt;足球</span><br><span class="line">  &lt;input type&#x3D;&quot;checkbox&quot; value&#x3D;&quot;乒乓球&quot; v-model&#x3D;&quot;hobbies&quot;&gt;乒乓球</span><br><span class="line">  &lt;input type&#x3D;&quot;checkbox&quot; value&#x3D;&quot;羽毛球&quot; v-model&#x3D;&quot;hobbies&quot;&gt;羽毛球</span><br><span class="line">  &lt;h2&gt;您的爱好是: &#123;&#123;hobbies&#125;&#125;&lt;&#x2F;h2&gt;</span><br><span class="line"> </span><br><span class="line"> &lt;!--值绑定显示多选框--&gt;</span><br><span class="line">  &lt;label v-for&#x3D;&quot;item in originHobbies&quot; :for&#x3D;&quot;item&quot;&gt;</span><br><span class="line">    &lt;input type&#x3D;&quot;checkbox&quot; :value&#x3D;&quot;item&quot; :id&#x3D;&quot;item&quot; v-model&#x3D;&quot;hobbies&quot;&gt;&#123;&#123;item&#125;&#125;</span><br><span class="line">  &lt;&#x2F;label&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src&#x3D;&quot;..&#x2F;js&#x2F;vue.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  const app &#x3D; new Vue(&#123;</span><br><span class="line">    el: &#39;#app&#39;,</span><br><span class="line">    data: &#123;</span><br><span class="line">      message: &#39;你好啊&#39;,</span><br><span class="line">      isAgree: false, &#x2F;&#x2F; 单选框</span><br><span class="line">      hobbies: [], &#x2F;&#x2F; 多选框,</span><br><span class="line">      originHobbies: [&#39;篮球&#39;, &#39;足球&#39;, &#39;乒乓球&#39;, &#39;羽毛球&#39;, &#39;台球&#39;, &#39;高尔夫球&#39;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;body&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="v-model结合select类型"><a class="header-anchor" href="#v-model结合select类型"></a>v-model结合select类型</h2>
+<p>注意v-model是绑定在select上的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">  &lt;!--1.选择一个--&gt;</span><br><span class="line">  &lt;select name&#x3D;&quot;abc&quot; v-model&#x3D;&quot;fruit&quot;&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;苹果&quot;&gt;苹果&lt;&#x2F;option&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;香蕉&quot;&gt;香蕉&lt;&#x2F;option&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;榴莲&quot;&gt;榴莲&lt;&#x2F;option&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;葡萄&quot;&gt;葡萄&lt;&#x2F;option&gt;</span><br><span class="line">  &lt;&#x2F;select&gt;</span><br><span class="line">  &lt;h2&gt;您选择的水果是: &#123;&#123;fruit&#125;&#125;&lt;&#x2F;h2&gt;</span><br><span class="line"></span><br><span class="line">  &lt;!--2.选择多个--&gt;</span><br><span class="line">  &lt;select name&#x3D;&quot;abc&quot; v-model&#x3D;&quot;fruits&quot; multiple&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;苹果&quot;&gt;苹果&lt;&#x2F;option&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;香蕉&quot;&gt;香蕉&lt;&#x2F;option&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;榴莲&quot;&gt;榴莲&lt;&#x2F;option&gt;</span><br><span class="line">    &lt;option value&#x3D;&quot;葡萄&quot;&gt;葡萄&lt;&#x2F;option&gt;</span><br><span class="line">  &lt;&#x2F;select&gt;</span><br><span class="line">  &lt;h2&gt;您选择的水果是: &#123;&#123;fruits&#125;&#125;&lt;&#x2F;h2&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src&#x3D;&quot;..&#x2F;js&#x2F;vue.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  const app &#x3D; new Vue(&#123;</span><br><span class="line">    el: &#39;#app&#39;,</span><br><span class="line">    data: &#123;</span><br><span class="line">      message: &#39;你好啊&#39;,</span><br><span class="line">      fruit: &#39;香蕉&#39;,</span><br><span class="line">      fruits: []</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;body&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="v-model的修饰符的使用"><a class="header-anchor" href="#v-model的修饰符的使用"></a>v-model的修饰符的使用</h2>
+<h4 id="lazy修饰符"><a class="header-anchor" href="#lazy修饰符"></a>lazy修饰符</h4>
+<ul>
+<li>默认情况下，v-model默认是在input事件中同步输入框的数据的。也就是说，一旦有数据发生改变对应的data中的数据就会自动发生改变。</li>
+<li>lazy修饰符可以让数据在失去焦点或者回车时才会更新。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type&#x3D;&quot;text&quot; v-model.lazy&#x3D;&quot;message&quot;&gt;</span><br><span class="line">&lt;h2&gt;&#123;&#123;message&#125;&#125;&lt;&#x2F;h2&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="number修饰符"><a class="header-anchor" href="#number修饰符"></a>number修饰符</h4>
+<ul>
+<li>默认情况下，在输入框中无论我们输入的是字母还是数字，都会被当做字符串类型进行处理</li>
+<li>number修饰符可以让在输入框中输入的内容自动转成数字类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type&#x3D;&quot;number&quot; v-model.number&#x3D;&quot;age&quot;&gt;</span><br><span class="line">&lt;h2&gt;&#123;&#123;age&#125;&#125;-&#123;&#123;typeof age&#125;&#125;&lt;&#x2F;h2&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="trim修饰符"><a class="header-anchor" href="#trim修饰符"></a>trim修饰符</h4>
+<ul>
+<li>如果输入的内容首尾有很多空格，通常我们希望将其去除</li>
+<li>trim修饰符可以过滤内容左右两边的空格</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type&#x3D;&quot;text&quot; v-model.trim&#x3D;&quot;name&quot;&gt;</span><br><span class="line">&lt;h2&gt;您输入的名字:&#123;&#123;name&#125;&#125;&lt;&#x2F;h2&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="值绑定"><a class="header-anchor" href="#值绑定"></a>值绑定</h2>
+<p>动态地给value赋值，即通过v-bind:value动态的给value绑定值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;label v-for&#x3D;&quot;item in originHobbies&quot; :for&#x3D;&quot;item&quot;&gt;</span><br><span class="line">  &lt;input type&#x3D;&quot;checkbox&quot; :value&#x3D;&quot;item&quot; :id&#x3D;&quot;item&quot;&gt;&#123;&#123;item&#125;&#125;</span><br><span class="line">&lt;&#x2F;label&gt;</span><br></pre></td></tr></table></figure>
+<p>id也要动态绑定，因为不然id会一样。</p>
+<p>v-for要放在label里，因为一个label标签包含一个input。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Bluu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-v-model%EF%BC%88%E5%85%AB%EF%BC%89/">http://yoursite.com/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-v-model%EF%BC%88%E5%85%AB%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com" target="_blank">Tr's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%89%8D%E7%AB%AF/">前端</a><a class="post-meta__tags" href="/tags/Vue/">Vue</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/05/30/Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95-%E5%BE%AA%E7%8E%AF%E9%81%8D%E5%8E%86%EF%BC%88%E4%B8%83%EF%BC%89/"><img class="next-cover" data-src="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue模板语法-循环遍历（七）</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2021/05/30/Vue模板语法-事件监听（五）/" title="Vue模板语法-事件监听（五）"><img class="relatedPosts_cover" data-src="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-30</div><div class="relatedPosts_title">Vue模板语法-事件监听（五）</div></div></a></div><div class="relatedPosts_item"><a href="/2021/05/30/Vue模板语法-循环遍历（七）/" title="Vue模板语法-循环遍历（七）"><img class="relatedPosts_cover" data-src="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-30</div><div class="relatedPosts_title">Vue模板语法-循环遍历（七）</div></div></a></div><div class="relatedPosts_item"><a href="/2021/05/30/Vue模板语法-动态绑定属性（三）/" title="Vue模板语法-动态绑定属性（三）"><img class="relatedPosts_cover" data-src="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-30</div><div class="relatedPosts_title">Vue模板语法-动态绑定属性（三）</div></div></a></div><div class="relatedPosts_item"><a href="/2021/05/30/Vue模板语法-插值操作（二）/" title="Vue模板语法-插值操作（二）"><img class="relatedPosts_cover" data-src="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-30</div><div class="relatedPosts_title">Vue模板语法-插值操作（二）</div></div></a></div><div class="relatedPosts_item"><a href="/2021/05/30/Vue模板语法-条件判断（六）/" title="Vue模板语法-条件判断（六）"><img class="relatedPosts_cover" data-src="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-30</div><div class="relatedPosts_title">Vue模板语法-条件判断（六）</div></div></a></div><div class="relatedPosts_item"><a href="/2021/05/30/初见Vue-js（一）/" title="初见Vue.js（一）"><img class="relatedPosts_cover" data-src="https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-30</div><div class="relatedPosts_title">初见Vue.js（一）</div></div></a></div></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail,link')
+var requiredFields = requestSetting(['nick','mail'],'nick,mail')
+
+
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: '4fKneVKGl66HsS7zLlsDICFW-MdYXbMMI',
+  appKey: 'EoeVlerGNhtR5eMK5aRJpyf2',
+  placeholder: '记得留下你的昵称和邮箱,可以快速得到回复',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'en',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: 'https://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/blusolari/ImgHosting/pic/20210530011752.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Bluu</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">CDN by jsDelivr</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button class="translate_chn_to_cht" id="translateLink" title="简繁转换">繁</button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fas fa-comments"></i></a><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/js/utils.js"></script><script src="https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/js/main.js"></script><script src="https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/gh/blusolari/cdn@1.0/js/third-party/fireworks.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script></body></html>
